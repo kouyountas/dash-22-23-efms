@@ -206,6 +206,8 @@ elif page == "Page 2 - Overconsumption Analysis":
 elif page == "Page 3 - Consumption by Category":
 
     st.title("Consumption by Category")
+    
+    st.header("By Long Description")
 
     # Group the dataframe by 'Long Description' and calculate the sum of 'Fuel Qty' and 'ODO Diff'
     consumption_df = df.groupby('Long Description').agg({'Fuel Qty': 'sum', 'ODO Diff': 'sum'}).reset_index()
@@ -227,3 +229,26 @@ elif page == "Page 3 - Consumption by Category":
 
     # Display the table
     st.dataframe(consumption_df)
+
+    st.header("By Plate #")
+
+    # Group the dataframe by 'Plate #' and calculate the sum of 'Fuel Qty' and 'ODO Diff'
+    consumption_df_plate = df.groupby('Plate #').agg({'Fuel Qty': 'sum', 'ODO Diff': 'sum'}).reset_index()
+
+    # Round the columns to the nearest whole number
+    consumption_df_plate = consumption_df_plate.round()
+
+    # Rename columns
+    consumption_df_plate = consumption_df_plate.rename(columns={
+        'Fuel Qty': 'Total Liters Qty',
+        'ODO Diff': 'Total ODO'
+    })
+
+    # Add 'Average Consumption' column
+    consumption_df_plate['Average Consumption'] = consumption_df_plate['Total Liters Qty'] / (consumption_df_plate['Total ODO'] / 100)
+
+    # Round 'Average Consumption' to two decimal places
+    consumption_df_plate['Average Consumption'] = consumption_df_plate['Average Consumption'].round(2)
+
+    # Display the table
+    st.dataframe(consumption_df_plate)
