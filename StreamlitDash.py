@@ -230,6 +230,8 @@ elif page == "Page 3 - Consumption by Category":
     # Display the table
     st.dataframe(consumption_df)
 
+
+
     st.header("By Plate #")
 
     # Group the dataframe by 'Plate #' and calculate the sum of 'Fuel Qty' and 'ODO Diff'
